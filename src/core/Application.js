@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactDom from 'react-dom'
+import { Provider } from 'react-redux'
 import debug from 'debug'
+
+import getStore from 'core/store'
 
 const log = debug('APP:MAIN')
 
@@ -9,6 +12,7 @@ const getPackageWeight = (packageInstance) => (packageInstance.info && packageIn
 class Application {
   constructor () {
     this.packages = {}
+    this.store = null
     this.flags = {
       bootstrapped: false
     }
@@ -27,17 +31,27 @@ class Application {
   bootstrap () {
     log('Bootstrapping.')
     this.invokeHook('prebootstrap')
-    // Create history
     // Bootstrap services
+    // Create store
+    log('Creating redux store')
+    const reducers = this.mergeHook('reducers')
+    const middlewares = this.combineHook('middlewares')
+    const storeEnhancers = this.combineHook('storeEnhancers')
+    this.store = getStore(reducers, middlewares, storeEnhancers)
     this.mark('bootstrapped')
     this.invokeHook('postbootstrap')
     return this
   }
 
   mount (domElement) {
+    if (!this.is('bootstrapped')) {
+      throw new Error('Bootstrapping is required to mount.')
+    }
     log('Mount.')
     ReactDom.render(
-      <div>ok</div>
+      <Provider store={this.store}>
+        <div>ok</div>
+      </Provider>
     , domElement)
     return this
   }
@@ -85,8 +99,8 @@ class Application {
     })
   }
 
-  composeHook (hook, ...params) {
-    this.getSortedPackages()
+  combineHook (hook, ...params) {
+    return this.getSortedPackages()
     .reduce((prev, packageInstance) => {
       if (typeof packageInstance[hook] === 'function') {
         return [...prev, ...packageInstance[hook](...params)]
@@ -96,24 +110,24 @@ class Application {
   }
 
   mergeHook (hook, ...params) {
-    this.getSortedPackages()
+    return this.getSortedPackages()
     .reduce((prev, packageInstance) => {
       if (typeof packageInstance[hook] === 'function') {
         return { ...prev, ...packageInstance[hook](...params) }
       }
       return prev
-    })
+    }, {})
   }
 
   perPackageHook (hook, ...params) {
-    this.getSortedPackages()
+    return this.getSortedPackages()
     .reduce((prev, packageInstance) => {
       const packageName = packageInstance.name
       if (typeof packageInstance[hook] === 'function') {
         return { ...prev, [packageName]: packageInstance[hook](...params) }
       }
       return prev
-    })
+    }, {})
   }
 }
 
