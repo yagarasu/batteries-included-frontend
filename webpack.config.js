@@ -24,6 +24,12 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, 'src')
+    ]
+  },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
