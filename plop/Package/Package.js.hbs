@@ -1,0 +1,55 @@
+import Package from './core/Package'
+
+/**
+ * {{ pascalCase name }} Package
+ * {{ description }}
+ */
+class {{ pascalCase name }} extends Package {
+
+  static info = {
+    description: '{{ description }}',
+    weight: 0
+  }
+
+  constructor (app) {
+    super()
+  }
+
+  /**
+   * Register
+   * @implements register hook
+   */
+  register () {
+    // ...
+  }
+
+  /**
+   * Routes
+   * @implements routes hook
+   */
+  routes () {
+    return [
+      { path: '/my/path/:param', component: SomeComponentOrFunction } //, ...
+    ]
+  }
+
+  /**
+   * Middlewares
+   * @implements middlewares hook
+   */
+  middlewares () {
+    return [
+      // myMiddleware
+    ]
+  }
+
+  /**
+   * Reducers
+   * @implements redycers hook
+   */
+  reducers () {
+    return {
+      // myReducer: reducer
+    }
+  }
+}
