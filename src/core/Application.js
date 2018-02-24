@@ -1,5 +1,8 @@
-import 'react'
+import React from 'react'
 import ReactDom from 'react-dom'
+import debug from 'debug'
+
+const log = debug('APP:MAIN')
 
 const getPackageWeight = (packageInstance) => (packageInstance.info && packageInstance.info.weight) || 0
 
@@ -22,18 +25,21 @@ class Application {
   }
 
   bootstrap () {
+    log('Bootstrapping.')
     this.invokeHook('prebootstrap')
     // Create history
     // Bootstrap services
     this.mark('bootstrapped')
     this.invokeHook('postbootstrap')
+    return this
   }
 
   mount (domElement) {
-    // ReactDOM
+    log('Mount.')
     ReactDom.render(
       <div>ok</div>
     , domElement)
+    return this
   }
 
   register (PackageClass) {
@@ -53,6 +59,7 @@ class Application {
       throw new Error('Registering packages must occur before bootstrapping.')
     }
     packageClasses.forEach(packageClass => this.register(packageClass))
+    return this
   }
 
   resolve (packageName) {
@@ -74,7 +81,7 @@ class Application {
   invokeHook (hook, ...params) {
     this.getSortedPackages()
     .forEach((packageInstance) => {
-      if (typeof pacpackageInstancekage[hook] === 'function') packageInstance[hook](...params)
+      if (typeof packageInstance[hook] === 'function') packageInstance[hook](...params)
     })
   }
 

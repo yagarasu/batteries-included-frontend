@@ -14,7 +14,7 @@ module.exports = function (env) {
     })
   ]
 
-  if (env.analyzer) {
+  if (env && env.analyzer) {
     plugins.push(new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       reportFilename: path.resolve(__dirname, 'analysis/bundleReport.html'),

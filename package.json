@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "dev": "webpack-dev-server",
     "build": "webpack --env.NODE_ENV=prod",
     "build:dev": "webpack --env.NODE_ENV=dev",
     "build:analysis": "webpack --env.NODE_ENV=dev --env.analysis"
@@ -17,11 +18,13 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "debug": "^3.1.0",
     "html-webpack-plugin": "^2.30.1",
     "plop": "^1.9.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "webpack": "^3.11.0",
-    "webpack-bundle-analyzer": "^2.10.1"
+    "webpack-bundle-analyzer": "^2.10.1",
+    "webpack-dev-server": "^2.11.1"
   }
 }

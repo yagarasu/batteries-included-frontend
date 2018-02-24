@@ -6,4 +6,5 @@ app
   .registerMany([
     TestPackage
   ])
+  .bootstrap()
   .mount(document.getElementById('app'))
