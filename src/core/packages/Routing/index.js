@@ -60,7 +60,10 @@ class Routing extends Package {
 
   middlewares () {
     return [
-      this.reduxFirstRouter.middleware
+      {
+        name: 'routing',
+        middleware: this.reduxFirstRouter.middleware
+      }
     ]
   }
 

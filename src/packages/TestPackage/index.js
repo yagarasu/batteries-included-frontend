@@ -27,7 +27,11 @@ class TestPackage extends Package {
 
   middlewares () {
     return [
-      loggerMiddleware()
+      {
+        name: 'logger',
+        weight: 0,
+        middleware: loggerMiddleware()
+      }
     ]
   }
 
