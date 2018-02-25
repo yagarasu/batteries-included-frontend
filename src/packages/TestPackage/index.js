@@ -1,5 +1,7 @@
 import Package from 'core/Package'
 import HomeView from './homeView'
+import counterReducer from './counterDuck'
+import CounterContainer from './CounterContainer'
 import NotFound from './NotFound'
 
 class TestPackage extends Package {
@@ -13,7 +15,17 @@ class TestPackage extends Package {
       'TESTPACKAGE:HOME': {
         path: '/',
         component: HomeView
+      },
+      'TESTPACKAGE:COUNTER': {
+        path: '/counter',
+        component: CounterContainer
       }
+    }
+  }
+
+  reducers () {
+    return {
+      counter: counterReducer
     }
   }
 

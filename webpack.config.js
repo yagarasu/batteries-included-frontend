@@ -51,6 +51,9 @@ module.exports = function (env) {
         path.resolve(__dirname, 'src')
       ]
     },
-    plugins: plugins
+    plugins: plugins,
+    devServer: {
+      historyApiFallback: true
+    }
   };
 };

@@ -3,6 +3,9 @@ import { connectRoutes } from 'redux-first-router'
 import Package from 'core/Package'
 import pageSwitch from './pageSwitch'
 import DefaultNotFoundPage from './DefaultNotFound'
+import debug from 'debug'
+
+const log = debug('APP:ROUTING')
 
 class Routing extends Package {
   static info: {
@@ -16,8 +19,10 @@ class Routing extends Package {
   }
 
   prebootstrap () {
+    log('Create history.')
     this.app.history = createHistory()
     const { slugToPath } = this.getRoutingMaps()
+    log('%d routes found', Object.keys(slugToPath).length)
     this.reduxFirstRouter = connectRoutes(this.app.history, slugToPath)
   }
 
