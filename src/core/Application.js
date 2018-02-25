@@ -2,8 +2,10 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import { Provider } from 'react-redux'
 import debug from 'debug'
+import Bottle from 'bottlejs'
 
 import getStore from 'core/store'
+import bootstrapServices from 'core/services'
 import Routing from 'core/packages/Routing'
 
 const log = debug('APP:MAIN')
@@ -14,6 +16,7 @@ class Application {
   constructor () {
     this.packages = {}
     this.store = null
+    this.bottle = null
     this.flags = {
       bootstrapped: false
     }
@@ -35,12 +38,13 @@ class Application {
     log('Bootstrapping.')
     this.invokeHook('prebootstrap')
     // Bootstrap services
+    bootstrapServices(this)
     // Create store
     log('Creating redux store')
     const reducers = this.mergeHook('reducers')
     const middlewares = this.combineHook('middlewares')
     const storeEnhancers = this.combineHook('storeEnhancers')
-    this.store = getStore(reducers, middlewares, storeEnhancers)
+    this.store = getStore(this, reducers, middlewares, storeEnhancers)
     this.mark('bootstrapped')
     this.invokeHook('postbootstrap')
     return this

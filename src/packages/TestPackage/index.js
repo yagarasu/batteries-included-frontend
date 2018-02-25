@@ -3,6 +3,8 @@ import HomeView from './homeView'
 import counterReducer from './counterDuck'
 import CounterContainer from './CounterContainer'
 import NotFound from './NotFound'
+import RandomNumService from './RandomNumService'
+import loggerMiddleware from './loggerMiddleware'
 
 class TestPackage extends Package {
   static info: {
@@ -23,6 +25,12 @@ class TestPackage extends Package {
     }
   }
 
+  middlewares () {
+    return [
+      loggerMiddleware()
+    ]
+  }
+
   reducers () {
     return {
       counter: counterReducer
@@ -31,6 +39,12 @@ class TestPackage extends Package {
 
   routeNotFoundPage () {
     return [NotFound]
+  }
+
+  services () {
+    return {
+      RandomNum: RandomNumService
+    }
   }
 }
 

@@ -12,16 +12,24 @@ const DECREMENT = 'DECREMENT'
 const decrementReducer = (state, { payload }) => ({ counter: state.counter + payload })
 export const decrement = createAction(DECREMENT)
 
-export const asyncIncrement = (number, timeout) => dispatch => {
+export const asyncIncrement = (number, timeout) => container => dispatch => {
   setTimeout(() => {
     dispatch(increment(number))
   }, timeout)
 }
 
+export const randomIncrement = () => ({ RandomNum }) => dispatch => {
+  return RandomNum.getRandom().then((num) => {
+    dispatch(increment(num))
+    return num
+  })
+}
+
 export const actions = {
   increment,
   decrement,
-  asyncIncrement
+  asyncIncrement,
+  randomIncrement
 }
 
 export default handleActions({
