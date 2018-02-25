@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import debug from 'debug'
 
 import getStore from 'core/store'
+import Routing from 'core/packages/Routing'
 
 const log = debug('APP:MAIN')
 
@@ -16,6 +17,8 @@ class Application {
     this.flags = {
       bootstrapped: false
     }
+    // Register core packages
+    this.register(Routing)
   }
 
   is (flag) {
@@ -48,12 +51,21 @@ class Application {
       throw new Error('Bootstrapping is required to mount.')
     }
     log('Mount.')
+    const RootComponent = this.getRootComponent((props) => null)
     ReactDom.render(
       <Provider store={this.store}>
-        <div>ok</div>
+        <div>
+          <RootComponent />
+          <pre>{JSON.stringify(this.store.getState(),null,2)}</pre>
+        </div>
       </Provider>
     , domElement)
     return this
+  }
+
+  getRootComponent (DefaultComponent) {
+    const composers = this.combineHook('rootComponent')
+    return composers.reduce((prev, composer) => composer(prev), DefaultComponent)
   }
 
   register (PackageClass) {
