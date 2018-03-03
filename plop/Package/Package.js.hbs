@@ -1,55 +1,35 @@
-import Package from './core/Package'
-
-/**
- * {{ pascalCase name }} Package
- * {{ description }}
- */
 class {{ pascalCase name }} extends Package {
-
-  static info = {
+  static info: {
     description: '{{ description }}',
     weight: 0
   }
+{{#if hasService}}
+    services () {
+      return {
+        RandomNum: RandomNumService
+      }
+    }
 
-  constructor (app) {
-    super()
-  }
-
-  /**
-   * Register
-   * @implements register hook
-   */
-  register () {
-    // ...
-  }
-
-  /**
-   * Routes
-   * @implements routes hook
-   */
-  routes () {
-    return [
-      { path: '/my/path/:param', component: SomeComponentOrFunction } //, ...
-    ]
-  }
-
-  /**
-   * Middlewares
-   * @implements middlewares hook
-   */
+{{/if}}
+{{#if hasMiddleware}}
   middlewares () {
     return [
-      // myMiddleware
+      {
+        name: 'middleware-name',
+        weight: 0,
+        middleware: myMiddleware()
+      }
     ]
   }
 
-  /**
-   * Reducers
-   * @implements redycers hook
-   */
+{{/if}}
+{{#if hasDuck}}
   reducers () {
     return {
-      // myReducer: reducer
+      counter: counterReducer
     }
   }
+{{/if}}
 }
+
+export default {{ pascalCase name }}

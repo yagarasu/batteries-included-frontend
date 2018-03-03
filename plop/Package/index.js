@@ -14,6 +14,24 @@ module.exports = {
       name: 'description',
       message: 'Description',
       default: ''
+    },
+    {
+      type: 'confirm',
+      name: 'hasService',
+      message: 'Does it has services?',
+      default: false
+    },
+    {
+      type: 'confirm',
+      name: 'hasDuck',
+      message: 'Does it has redux-ducks?',
+      default: false
+    },
+    {
+      type: 'confirm',
+      name: 'hasMiddleware',
+      message: 'Does it has middlewares?',
+      default: false
     }
   ],
   actions: [{
